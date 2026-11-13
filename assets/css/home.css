@@ -1,0 +1,97 @@
+/* Home, laid out the way Lane drew it: her photograph and a few words on dusty-pink paper,
+   her name over lace and lotus, the two ways in as pink cards. The bead curtain still parts
+   when the page opens. */
+
+.home { margin: 0; background: #d5bac3; color: #1e1519; overscroll-behavior: none; }
+
+.home-split { display: grid; grid-template-columns: 51fr 49fr; min-height: 100vh; min-height: 100svh; }
+
+/* ---- the pink half: paper with a faint lotus print, the photograph taped down, the greeting ---- */
+.home-left {
+  position: relative; isolation: isolate;
+  display: flex; flex-direction: column; justify-content: center; gap: clamp(22px, 4.4vh, 46px);
+  padding: clamp(34px, 7vh, 84px) clamp(28px, 3.6vw, 60px) clamp(30px, 6vh, 72px) clamp(72px, 6.8vw, 112px);   /* clear of the gathered beads */
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><g fill='none' stroke='%23b48594' stroke-opacity='.22' stroke-width='1'><path d='M60 34c4 5 6 12 0 22-6-10-4-17 0-22zM60 56c-7-3-13-10-15-17 7 1 12 6 15 17zM60 56c7-3 13-10 15-17-7 1-12 6-15 17z'/><path d='M0 110c7-2 13-3 20-3s13 1 20 3M80 110c7-2 13-3 20-3s13 1 20 3'/></g></svg>") 0 0 / 120px 120px,
+    radial-gradient(120% 90% at 30% 20%, rgba(255, 246, 248, .35), rgba(255, 246, 248, 0) 60%),
+    #d5bac3;
+}
+.home-left::after { content: ""; position: absolute; inset: 0; z-index: -1; background-image: var(--grain-soft); opacity: .7; pointer-events: none; }
+
+.home-photo {
+  position: relative; margin: 0; padding: clamp(7px, .7vw, 11px);
+  background: #fbf6f0; box-shadow: 0 1px 2px rgba(60, 30, 40, .25), 0 18px 34px -18px rgba(60, 20, 35, .55);
+  opacity: 0; translate: 0 10px; animation: home-in 900ms 250ms var(--ease-out) forwards;
+}
+.home-photo img { display: block; width: 100%; height: auto; }
+/* two strips of pink paper tape holding the print */
+.home-photo__tape {
+  position: absolute; top: -12px; width: clamp(64px, 7vw, 104px); height: 24px; z-index: 1;
+  background: rgba(240, 170, 205, .62) var(--grain); box-shadow: 0 1px 1px rgba(80, 30, 50, .12);
+  clip-path: polygon(3% 0, 97% 5%, 100% 32%, 96% 62%, 99% 100%, 2% 95%, 0 68%, 4% 38%);
+}
+.home-photo__tape--l { left: 7%; rotate: -5deg; }
+.home-photo__tape--r { right: 7%; rotate: 4deg; }
+
+.home-intro {
+  max-width: 33em; font-family: var(--font-body); font-size: clamp(17px, 1.42vw, 22px); line-height: 1.5; color: #24191d;
+  opacity: 0; translate: 0 8px; animation: home-in 900ms 450ms var(--ease-out) forwards;
+}
+.home-intro p { margin: 0 0 .8em; }
+.home-intro p:last-child { margin-bottom: 0; }
+.home-intro__hi { font-size: 1.1em; }
+.home-intro__lotus { display: block; width: 44px; height: 28px; margin: 0 0 .7em; fill: #b97a92; stroke: #b97a92; opacity: .85; }
+
+/* ---- the lace half: the name, and the way in ---- */
+.home-right {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: clamp(40px, 8vh, 90px) 4% clamp(40px, 8vh, 90px) 0;
+  background: #e9e4de url("../img/home-lace.webp") 50% 50% / cover no-repeat;
+}
+.home-title {
+  position: relative; z-index: 2; margin: 0 0 0 calc(-7.5vw); white-space: nowrap;
+  font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(54px, 7.4vw, 132px); line-height: .92; letter-spacing: .02em; color: #140d10;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .25);
+  opacity: 0; translate: 0 10px; animation: home-in 1100ms 350ms var(--ease-out) forwards;
+}
+.home-nav { display: grid; gap: clamp(18px, 3.2vh, 34px); margin-top: clamp(44px, 10vh, 108px); }
+.home-btn {
+  display: block; width: clamp(220px, 22.5vw, 320px); padding: clamp(10px, 1.5vh, 14px) 18px clamp(8px, 1.3vh, 12px);
+  font-family: var(--font-display); font-size: clamp(20px, 1.85vw, 27px); letter-spacing: .07em; text-transform: uppercase; text-align: center;
+  color: #1e1519; text-decoration: none;
+  background: #f2a9e0 var(--grain-soft);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .45) inset, 0 10px 18px -12px rgba(80, 20, 60, .6);
+  opacity: 0; translate: 0 8px; animation: home-in 700ms var(--ease-out) forwards;
+  transition: transform 160ms var(--ease-out), background-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+}
+.home-btn:nth-child(1) { animation-delay: 1050ms; }
+.home-btn:nth-child(2) { animation-delay: 1130ms; }
+.home-btn:active { transform: scale(.97); }
+.home-btn:focus-visible { outline: 3px solid #7a2a5c; outline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .home-btn:hover { background-color: #f6bde8; box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 14px 22px -12px rgba(80, 20, 60, .65); }
+}
+@keyframes home-in { to { opacity: 1; translate: none; } }
+
+/* ---- bead curtain: soft rose, plum, pearl and old gold on fine thread ---- */
+:root {
+  --bead-rose: #c68da3; --bead-plum: #9b627c; --bead-pearl: #ddd1c7; --bead-gold: #a68a58; --bead-cream: #eee7db;
+  --bead-white: #fffaf1; --bead-shade: #501d32; --bead-thread: #6a4c4860;
+}
+.beads { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+
+/* ---- narrow screens: the name and the doors first, then Lane ---- */
+@media (max-width: 860px) {
+  .home-split { grid-template-columns: 1fr; grid-template-rows: auto auto; }
+  .home-right { order: -1; min-height: 52vh; min-height: 52svh; padding: 64px 20px 44px; }
+  .home-title { margin: 0; font-size: clamp(48px, 13.5vw, 96px); }
+  .home-nav { margin-top: clamp(28px, 5vh, 52px); gap: 16px; }
+  .home-btn { width: min(280px, 70vw); font-size: 20px; }
+  .home-left { padding: 34px 30px 44px; gap: 26px; }
+  .home-intro { font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-photo, .home-intro, .home-title, .home-btn { animation: none; opacity: 1; translate: none; }
+}

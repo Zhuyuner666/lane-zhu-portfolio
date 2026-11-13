@@ -1,0 +1,163 @@
+/* Project pages: the surfaces the books rest on, and the envelope that opens Xiangxi and Xiaofang.
+   The books themselves (pages, covers, skins) are in book.css. */
+
+/* ================= surfaces ================= */
+.obj { min-height: 100vh; }
+.obj--velvet {
+  background-color: var(--velvet-deep);
+  background-image:
+    radial-gradient(90vw 70vh at 50% 22%, rgba(140, 34, 70, .55), rgba(140, 34, 70, 0) 70%),
+    var(--grain-soft),
+    linear-gradient(180deg, #4a0f27 0%, #2b0714 100%);
+  background-attachment: fixed, scroll, fixed;
+}
+.obj--stage {
+  background-color: #0d0b0c;
+  background-image:
+    radial-gradient(60vw 80vh at 50% -10%, rgba(255, 236, 214, .17), rgba(255, 236, 214, 0) 70%),
+    var(--grain-soft);
+  background-attachment: fixed, scroll;
+}
+.obj--silk {
+  background-color: #e9c8d3;
+  background-image:
+    linear-gradient(115deg, rgba(255, 255, 255, 0) 20%, rgba(255, 246, 249, .45) 34%, rgba(255, 255, 255, 0) 46%, rgba(255, 255, 255, 0) 62%, rgba(255, 240, 246, .35) 74%, rgba(255, 255, 255, 0) 86%),
+    var(--grain),
+    linear-gradient(180deg, #ecd0da, #e2b9c8);
+  background-attachment: fixed, scroll, fixed;
+}
+
+/* the envelope button that brings the letter back */
+.reopen {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; padding: 8px 12px; border: 0; background: none; cursor: pointer;
+  font-style: italic; font-size: 16px; color: var(--ink-soft);
+  transition: color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.reopen svg { width: 30px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; pointer-events: none; }
+.reopen span { pointer-events: none; }
+.reopen:active { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) { .reopen:hover { color: #8d1e3e; } }
+
+/* ================= the envelope and the letter ================= */
+html.intro-on { overflow: hidden; }
+.intro { position: fixed; inset: 0; z-index: 200; }
+.intro__scrim {
+  position: absolute; inset: 0; background: rgba(24, 6, 14, .64);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  animation: fade-in 320ms var(--ease-out) both;
+}
+.intro.is-leaving .intro__scrim { opacity: 0; transition: opacity 300ms var(--ease-out); }
+@keyframes fade-in { from { opacity: 0; } }
+.intro__stage { position: absolute; inset: 0; perspective: 1500px; pointer-events: none; }
+.intro__stage > * { pointer-events: auto; }
+
+.env {
+  --ew: min(560px, 86vw);
+  position: absolute; width: var(--ew); height: calc(var(--ew) * 495 / 829);
+  left: calc(50% - var(--ew) / 2); top: calc(54% - var(--ew) * 495 / 829 / 2);
+}
+.env > * { transition: transform 720ms var(--ease-in-out), opacity 480ms var(--ease-out); }
+.env__inside {
+  position: absolute; inset: 1.5% 1%; z-index: 1;
+  background: linear-gradient(180deg, #a99577 0%, #cdb995 26%, #d9c7a6 100%);
+  box-shadow: inset 0 10px 16px rgba(60, 40, 20, .35);
+}
+.intro--pink .env__inside { background: linear-gradient(180deg, #b77f92 0%, #dca7b8 26%, #ebc3cf 100%); }
+.env__pocket {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3;
+  clip-path: polygon(0 0, 50% 61%, 100% 0, 100% 100%, 0 100%);
+  filter: drop-shadow(0 18px 24px rgba(20, 0, 8, .5));
+}
+.env__flap {
+  position: absolute; left: .6%; top: 0; width: 98.7%; height: 61%; z-index: 4;
+  transform-origin: 50% 0; transform-style: preserve-3d;
+  transform: perspective(1200px) rotateX(0deg);
+}
+.env__flap-front { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; filter: drop-shadow(0 3px 3px rgba(40, 20, 10, .25)); }
+.env__flap-back {                               /* drawn upside down so it reads right once the flap is up */
+  position: absolute; inset: 0; transform: rotateX(180deg); backface-visibility: hidden;
+  background: var(--fibres), linear-gradient(180deg, #ead9bb 0%, #d9c39f 70%, #c6ae88 100%);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.intro--pink .env__flap-back { background: var(--fibres), linear-gradient(180deg, #f6dbe3 0%, #e8bccb 70%, #d6a3b5 100%); }
+.intro.is-flapped .env__flap { z-index: 0; }
+.intro.is-lifted .letter { z-index: 6; }
+.env__seal {
+  position: absolute; left: 50%; top: 50.5%; z-index: 5;
+  width: calc(var(--ew) * .15); height: calc(var(--ew) * .15); translate: -50% -50%;
+  border: 0; border-radius: 50%; background: transparent; cursor: pointer;
+}
+.env { cursor: pointer; }
+.intro.is-open .env { cursor: default; }
+.env__seal::after {
+  content: ""; position: absolute; inset: 4px; border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 236, 214, .8); opacity: 0;
+  animation: seal-pulse 2.2s 900ms var(--ease-out) infinite;
+}
+@keyframes seal-pulse { 0% { opacity: .9; transform: scale(.7); } 70%, 100% { opacity: 0; transform: scale(1.35); } }
+.intro__hint {
+  position: absolute; left: 0; right: 0; top: calc(54% + min(560px, 86vw) * 495 / 829 / 2 + 22px); margin: 0;
+  text-align: center; color: #fbe9ef; font-style: italic; font-size: 18px; text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+  transition: opacity 240ms var(--ease-out);
+}
+.intro.is-open .intro__hint, .intro.is-open .env__seal { opacity: 0; pointer-events: none; }
+.intro.is-open .env__flap { transform: perspective(1200px) rotateX(180deg); }
+.intro.is-out .env > * { transform: translateY(78vh); opacity: 0; }
+.intro.is-out .env__flap { transform: translateY(78vh) perspective(1200px) rotateX(180deg); }
+
+.letter {
+  --lw: min(500px, 88vw, calc((100vh - 130px) / 1.41));
+  --lh: calc(var(--lw) * 1.41);
+  position: absolute; z-index: 2; width: var(--lw); height: var(--lh);
+  left: calc(50% - var(--lw) / 2); top: calc(50% - var(--lh) / 2 - 26px);
+  transform-origin: 50% 0; transform-style: preserve-3d;
+}
+.letter__p { position: relative; width: 100%; height: calc(var(--lh) / 3); transform-style: preserve-3d; }
+.letter__p--2, .letter__p--3 {
+  position: absolute; top: 100%; left: 0; transform-origin: 50% 0;
+  transition: transform 560ms var(--ease-in-out);
+}
+.letter__p--3 { transition-delay: 380ms; }
+.letter.is-folded .letter__p--2 { transform: rotateX(-179.4deg); }
+.letter.is-folded .letter__p--3 { transform: rotateX(179deg); }
+.letter__face {
+  position: absolute; inset: 0; overflow: hidden; backface-visibility: hidden;
+  box-shadow: 0 26px 44px -24px rgba(12, 0, 5, .7), 0 1px 3px rgba(40, 20, 10, .2);
+}
+.letter__face::after {                          /* the creases where the sheet was folded */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(0deg, rgba(90, 60, 30, .09), rgba(90, 60, 30, 0) 7%);
+}
+.letter__p--2 > .letter__face::after, .letter__p--3 > .letter__face::after {
+  background: linear-gradient(180deg, rgba(90, 60, 30, .13), rgba(90, 60, 30, 0) 9%);
+}
+.letter__back { position: absolute; inset: 0; transform: rotateX(180deg); backface-visibility: hidden; background: #e7d6b6 var(--fibres); }
+.intro--pink .letter__back { background: #f6e3e8 var(--fibres); }
+.letter__sheet {
+  position: absolute; left: 0; top: 0; width: var(--lw); height: var(--lh);
+  background-size: 100% 100%; background-repeat: no-repeat;
+  padding: 17% 15% 13%;
+  font-style: italic; font-size: clamp(14px, calc(var(--lw) * .036), 18.5px); line-height: 1.62; color: #3b2a22;
+}
+.letter__p--2 > .letter__face > .letter__sheet { top: calc(var(--lh) / -3); }
+.letter__p--3 > .letter__face > .letter__sheet { top: calc(var(--lh) * -2 / 3); }
+.letter__sheet p { margin: 0 0 .9em; }
+.letter__sign { margin-top: 1.2em !important; text-align: right; font-family: var(--font-script); font-style: normal; font-size: 2.1em; line-height: 1; color: #5a2a1e; }
+.intro--pink .letter__sheet { color: #4a2533; padding: 16% 13% 12%; text-align: center; }
+.letter__role { font-size: .92em; color: #a0567a; margin: 0 0 .3em !important; }
+.letter__title { margin: 0 0 .1em; font-family: var(--font-script); font-weight: 400; font-style: normal; font-size: 2.6em; line-height: 1.05; color: #b2416d; }
+.letter__venue { font-size: .92em; color: #a0567a; margin-bottom: 1.4em !important; }
+
+.intro__done {
+  position: absolute; left: 50%; bottom: max(22px, calc(50% - min(500px, 88vw, calc((100vh - 130px) / 1.41)) * 1.41 / 2 - 64px));
+  translate: -50% 0; opacity: 0; pointer-events: none;
+  transition: opacity 300ms var(--ease-out), transform 160ms var(--ease-out);
+}
+.intro.is-done .intro__done { opacity: 1; pointer-events: auto; }
+.intro.is-leaving .intro__stage { opacity: 0; translate: 0 18px; transition: opacity 300ms var(--ease-out), translate 300ms var(--ease-out); }
+.intro__hint, .intro__done { z-index: 7; }
+
+@media (prefers-reduced-motion: reduce) {
+  .env > *, .letter__p--2, .letter__p--3 { transition: none !important; }
+  .env__seal::after { animation: none; }
+}

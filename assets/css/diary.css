@@ -1,0 +1,183 @@
+/* Xiaofang's Diary: one long sheet of diary paper on pink silk, laid out like the exhibition's
+   WeChat article. Four stages of life, each with a lotus, a page from the diary, the works that
+   came from it, then the guide and a few more views of the room. */
+
+.xf-page {
+  --xf-paper: #fff8f9;
+  --xf-ink: #45283a;
+  --xf-rose: #b2416d;
+  --xf-rose-soft: #e58fb1;
+  --xf-plum: #6a2f48;
+  --xf-by: #9a4f73;
+  --xf-rule: rgba(214, 120, 160, .32);
+  --xf-zh: 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'STSong', SimSun, serif;
+  position: relative; z-index: 1;
+  width: min(1040px, 100% - 320px);
+  margin: 96px auto 64px;
+  padding: clamp(36px, 6vw, 84px) clamp(20px, 6.4vw, 92px) clamp(40px, 6vw, 80px);
+  background: var(--xf-paper) var(--fibres, none);
+  color: var(--xf-ink);
+  font-size: 19px; line-height: 1.62;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .7) inset, 0 30px 60px -36px rgba(110, 20, 60, .55), 0 2px 6px rgba(110, 20, 60, .08);
+}
+.xf-page [lang="zh"] { font-family: var(--xf-zh); }
+.xf-body { overflow-x: clip; }
+@media (prefers-reduced-motion: no-preference) { html:has(.xf-page) { scroll-behavior: smooth; } }
+.lotus { width: 52px; height: 32px; fill: var(--xf-rose-soft, #e58fb1); }
+
+/* ---------------- opening ---------------- */
+.xf-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+.xf-hero__role { margin: 0; font-style: italic; color: var(--xf-by); line-height: 1.5; }
+.xf-hero__title { margin: .12em 0 .2em; font-family: var(--font-script); font-weight: 400; font-size: clamp(58px, 7.4vw, 96px); line-height: 1; color: var(--xf-rose); }
+.xf-hero__intro { margin: 0; font-size: 21px; line-height: 1.58; }
+.xf-hero .reopen { margin-left: -12px; color: var(--xf-by); }
+
+/* photographs sit in a pink dotted frame, as in the exhibition's own layout */
+.xf-shot { margin: 0; padding: 9px; border: 2px dotted var(--xf-rose-soft); background: #fff; }
+.xf-shot img { display: block; width: 100%; height: auto; cursor: zoom-in; }
+.xf-shot--hero { rotate: 1.2deg; }
+.xf-shot--p { justify-self: center; width: min(100%, calc(min(74vh, 700px) * var(--ar) + 22px)); }
+.xf-shots__more .xf-shot { width: auto; }
+.xf-shots__more .xf-shot img { aspect-ratio: 1; object-fit: cover; }
+.xf-shots { display: grid; gap: 14px; }
+.xf-shots__more { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 14px; }
+
+/* ---------------- the ribbons: one bookmark per stage, the one in view stands out ---------------- */
+.xf-marks { position: sticky; top: 92px; z-index: 3; height: 0; }
+.xf-marks .ribbons { position: absolute; left: calc(100% + clamp(20px, 6.4vw, 92px) - 8px); top: 0; display: grid; gap: 10px; }
+.ribbon {
+  position: relative; display: block; width: 140px; padding: 9px 22px 9px 24px; text-decoration: none; white-space: nowrap;
+  font-size: 16px; font-style: italic; color: #fff4f7;
+  background: linear-gradient(180deg, #d0668f, #b24a74);
+  clip-path: polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%);
+  translate: -26px 0; transition: translate 240ms cubic-bezier(.23, 1, .32, 1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+.ribbon--2 { background: linear-gradient(180deg, #c7577f, #a63e66); }
+.ribbon--3 { background: linear-gradient(180deg, #a8507a, #8a3a61); }
+.ribbon--4 { background: linear-gradient(180deg, #9a6d9a, #7d5281); }
+.ribbon--5 { background: linear-gradient(180deg, #d98aa6, #bf6c8c); }
+.ribbon[aria-current="true"] { translate: 0 0; }
+@media (hover: hover) and (pointer: fine) { .ribbon:hover { translate: -8px 0; } .ribbon[aria-current="true"]:hover { translate: 0 0; } }
+
+/* ---------------- a stage of life ---------------- */
+.xf-stage { padding-top: clamp(56px, 8vw, 104px); scroll-margin-top: 24px; }
+.xf-stage__head { display: grid; justify-items: center; gap: 2px; margin: 0 auto clamp(26px, 4vw, 44px); text-align: center; }
+.xf-stage__head .lotus { width: 64px; height: 40px; }
+.xf-stage__zh { margin: 6px 0 0; font-size: 22px; letter-spacing: .16em; color: var(--xf-rose); line-height: 1.3; }
+.xf-stage__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 4.2vw, 46px); line-height: 1.1; color: #3a2630; }
+
+/* a page from the diary: ruled paper, the lines centred like the original */
+.xf-leaf {
+  --lh: 1.9em;
+  position: relative; margin: 0 auto clamp(28px, 4vw, 44px); max-width: 640px;
+  padding: calc(var(--lh) * .5) clamp(18px, 4vw, 44px) calc(var(--lh) * .5);
+  font-style: italic; font-size: 21px; line-height: var(--lh); color: var(--xf-plum); text-align: center;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 calc(var(--lh) - 1px), var(--xf-rule) calc(var(--lh) - 1px) var(--lh)) 0 calc(var(--lh) * .5) / 100% calc(100% - var(--lh)) no-repeat,
+    #fdf0f3;
+  box-shadow: 0 1px 2px rgba(110, 20, 60, .08), 0 14px 26px -20px rgba(110, 20, 60, .45);
+}
+.xf-leaf::before {                                  /* the margin line of a school exercise book */
+  content: ""; position: absolute; top: 0; bottom: 0; left: clamp(10px, 2.4vw, 26px); width: 3px;
+  border-left: 1px solid rgba(214, 90, 130, .45); border-right: 1px solid rgba(214, 90, 130, .45);
+}
+.xf-leaf p { margin: 0; }
+.xf-leaf__line { display: block; }
+.xf-leaf__sig { display: block; margin-top: calc(var(--lh) * .1); font-family: var(--font-script); font-style: normal; font-size: 1.35em; line-height: var(--lh); color: var(--xf-rose); text-align: right; }
+
+.xf-quote { margin: 0 auto clamp(34px, 5vw, 56px); max-width: 620px; font-style: italic; font-size: 24px; line-height: 1.5; color: var(--xf-rose); text-align: center; text-wrap: balance; }
+
+/* a work: its photograph beside its notes, sides alternating down the page */
+.xf-work { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 52px); align-items: center; margin: 0 0 clamp(40px, 6vw, 68px); }
+.xf-work:last-child { margin-bottom: 0; }
+.xf-work--right .xf-shots { order: 2; }
+.xf-work__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.15; color: #3a2630; }
+.xf-work__by { margin: 4px 0 14px; font-style: italic; color: var(--xf-by); }
+.xf-work__text { margin: 0; hyphens: auto; -webkit-hyphens: auto; }
+.xf-work__text + .xf-work__text { margin-top: .8em; }
+.xf-work__speech { margin: .7em 0 !important; padding-left: 16px; border-left: 2px solid var(--xf-rose-soft); font-style: italic; color: var(--xf-plum); }
+
+/* ---------------- the guide, the room, the way out ---------------- */
+.xf-guide .xf-work { align-items: start; }
+.xf-guide .paper-btn { margin-top: 22px; background: #fbe3ea; color: var(--xf-plum); font-size: 17px; }
+.xf-gallery { padding-top: clamp(56px, 8vw, 96px); }
+.xf-gallery__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 26px); }
+.xf-end { display: grid; justify-items: center; gap: 18px; padding-top: clamp(56px, 8vw, 96px); text-align: center; }
+.xf-end__text { margin: 0; max-width: 520px; font-style: italic; }
+.xf-end .paper-btn { background: #fbe3ea; color: var(--xf-plum); }
+.xf-end__back { font-family: var(--font-display); font-size: 18px; color: var(--xf-by); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+.xf-page :focus-visible { outline: 2px solid var(--xf-rose); outline-offset: 3px; }
+
+/* the pond under the paper: painted lotus, pads and a few petals drifting down. Decoration only. */
+.pond { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.pond::before {
+  content: ""; position: absolute; left: 50%; top: 52%; width: 120vw; height: 90vh; translate: -50% -50%;
+  background: radial-gradient(closest-side, rgba(255, 246, 249, .55), rgba(255, 246, 249, 0));
+}
+.pond__lotus { position: absolute; overflow: visible; filter: blur(.4px) drop-shadow(0 18px 30px rgba(150, 40, 90, .18)); }
+.pond__lotus .pl-back path { fill: url(#pl-d); opacity: .8; }
+.pond__lotus .pl-side path { fill: url(#pl-d); opacity: .7; }
+.pond__lotus .pl-mid path, .pond__lotus .pl-front { fill: url(#pl-g); }
+.pond__lotus path { stroke: rgba(201, 84, 132, .35); stroke-width: 1.2; }
+.pond__lotus--a { left: -3vw; bottom: -2vh; width: clamp(240px, 27vw, 430px); opacity: .9; rotate: -6deg; }
+.pond__lotus--b { right: 2vw; top: 14vh; width: clamp(130px, 13vw, 210px); opacity: .55; rotate: 8deg; filter: blur(1.6px); }
+.pond__pad { position: absolute; overflow: visible; }
+.pond__pad path { fill: url(#pad-g); }
+.pond__pad .vein { fill: none; stroke: rgba(240, 248, 238, .5); stroke-width: 1.4; }
+.pond__pad--a { left: 9vw; bottom: -6vh; width: clamp(200px, 22vw, 360px); opacity: .55; rotate: 8deg; }
+.pond__pad--b { right: -4vw; bottom: 4vh; width: clamp(180px, 19vw, 300px); opacity: .42; rotate: -12deg; filter: blur(1.4px); }
+.pond__petal {
+  position: absolute; top: -6vh; width: 18px; height: 26px; border-radius: 80% 0 80% 0;
+  background: linear-gradient(160deg, #fbd9e4, #ec9bba); opacity: .75; will-change: transform;
+  animation: petal-fall 26s linear infinite;
+}
+.pond__petal--1 { left: 8%; animation-delay: -3s; }
+.pond__petal--2 { left: 22%; width: 13px; height: 19px; animation-duration: 31s; animation-delay: -17s; }
+.pond__petal--3 { left: 78%; animation-duration: 29s; animation-delay: -9s; }
+.pond__petal--4 { left: 91%; width: 14px; height: 20px; animation-duration: 34s; animation-delay: -22s; }
+.pond__petal--5 { left: 64%; width: 11px; height: 16px; opacity: .5; animation-duration: 38s; animation-delay: -30s; }
+.pond__petal--6 { left: 36%; width: 12px; height: 17px; opacity: .55; animation-duration: 36s; animation-delay: -12s; }
+@keyframes petal-fall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+  25%  { transform: translate3d(4vw, 30vh, 0) rotate(80deg); }
+  50%  { transform: translate3d(-2vw, 58vh, 0) rotate(170deg); }
+  75%  { transform: translate3d(5vw, 86vh, 0) rotate(250deg); }
+  100% { transform: translate3d(1vw, 116vh, 0) rotate(340deg); }
+}
+@media (prefers-reduced-motion: reduce) { .pond__petal { animation: none; display: none; } }
+
+/* ---------------- narrower screens: the bookmarks become a row along the top ---------------- */
+@media (max-width: 1239px) {
+  .xf-page { width: calc(100% - 48px); }
+  .xf-marks { height: auto; top: 0; margin: clamp(40px, 6vw, 64px) calc(-1 * clamp(20px, 6.4vw, 92px)) 0; }
+  .xf-marks .ribbons {
+    position: static; display: flex; justify-content: safe center; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    padding: 10px clamp(20px, 6.4vw, 92px); background: rgba(255, 244, 247, .9);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 10px 18px -16px rgba(110, 20, 60, .6);
+  }
+  .xf-marks .ribbons::-webkit-scrollbar { display: none; }
+  .ribbon { width: auto; flex: none; padding: 7px 18px 7px 12px; font-size: 15px; translate: none; clip-path: polygon(0 0, 100% 0, 92% 50%, 100% 100%, 0 100%); opacity: .82; }
+  .ribbon[aria-current="true"] { translate: none; opacity: 1; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), inset 0 -3px 0 rgba(255, 255, 255, .55); }
+  @media (hover: hover) and (pointer: fine) { .ribbon:hover { translate: none; opacity: 1; } }
+  .xf-stage { padding-top: clamp(44px, 7vw, 80px); scroll-margin-top: 60px; }
+}
+@media (max-width: 759px) {
+  .xf-page { width: calc(100% - 20px); margin: 70px auto 36px; font-size: 18px; }
+  .xf-hero { grid-template-columns: 1fr; gap: 26px; }
+  .xf-hero__intro { font-size: 19px; }
+  .xf-shot { padding: 6px; }
+  .xf-shot--hero { rotate: none; }
+  .xf-leaf { font-size: 19px; padding-left: 26px; padding-right: 14px; }
+  .xf-leaf::before { left: 9px; }
+  .xf-quote { font-size: 21px; }
+  .xf-work { grid-template-columns: 1fr; gap: 18px; }
+  .xf-work--right .xf-shots { order: 0; }
+  .xf-work__title { font-size: 26px; }
+  .xf-gallery__grid { gap: 10px; }
+  .pond__lotus--a { left: -16vw; bottom: -3vh; width: 62vw; opacity: .7; }
+  .pond__lotus--b { right: -6vw; top: 9vh; width: 30vw; opacity: .45; }
+  .pond__pad--a { left: 30vw; bottom: -5vh; width: 52vw; }
+  .pond__pad--b { display: none; }
+}

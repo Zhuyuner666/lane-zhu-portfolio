@@ -1,0 +1,130 @@
+/* Projects: the wall Lane drew. A plum wall, pearls swagged along the top and falling down the right,
+   an old Chinese rug hung on the wall, a bonsai on its stand, a tiger with a pipe stretched out in front,
+   five rustic frames, and a red table with a vase of peonies. Everything is placed in the units of her
+   1536 x 1024 mock-up: --u is one mock-up pixel, scaled so the whole picture fits the window. */
+
+.wall-page { background: #7f2c62; }
+.wall-page .topbar__home,
+.wall-page .topbar__nav a { text-shadow: 0 1px 3px rgba(40, 0, 26, .55); }
+
+.pw {
+  position: relative; overflow: hidden;
+  min-height: 100vh; min-height: 100svh;
+  --sw: min(100vw, 150vh);
+  --sw: min(100vw, 150svh);
+  --u: calc(var(--sw) / 1536);
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255, 190, 225, .10), rgba(255, 190, 225, 0) 60%),
+    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(40, 0, 26, .32)),
+    var(--grain-soft),
+    #7f2c62;
+}
+
+/* pearls swagged along the top, under the name and the menu */
+.pw__swags {
+  position: absolute; z-index: 3; left: 0; right: 0; top: 48px;
+  height: clamp(64px, calc(132 * var(--u)), 150px);
+  background: url("../img/pearl-swag.svg") 50% 0 / auto 100% repeat-x;
+  filter: drop-shadow(0 3px 4px rgba(40, 0, 26, .35));
+  pointer-events: none;
+}
+
+/* the picture itself, standing on the bottom of the window */
+.pw__stage {
+  position: absolute; left: 50%; bottom: 0; translate: -50% 0;
+  width: var(--sw); height: calc(var(--sw) / 1.5);
+}
+
+.deco { position: absolute; display: block; height: auto; max-width: none; pointer-events: none; user-select: none; }
+/* the rug is portrait; on the wall it hangs on its side */
+.deco--rug {
+  z-index: 0;
+  width: calc(620 * var(--u));
+  left: calc((40 + 990 / 2) * var(--u) - 310 * var(--u)); top: calc((300 + 620 / 2) * var(--u) - 976 * var(--u) / 2);
+  rotate: -90deg;
+  filter: drop-shadow(0 calc(10 * var(--u)) calc(14 * var(--u)) rgba(40, 0, 26, .45)) saturate(.95);
+}
+.deco--pearls { z-index: 1; left: calc(1352 * var(--u)); top: max(50px, calc(44 * var(--u))); width: calc(150 * var(--u)); filter: drop-shadow(0 4px 5px rgba(40, 0, 26, .35)); }
+.deco--bonsai { z-index: 2; left: calc(52 * var(--u)); top: calc(188 * var(--u)); width: calc(478 * var(--u)); filter: drop-shadow(0 calc(10 * var(--u)) calc(12 * var(--u)) rgba(40, 0, 26, .4)); }
+.deco--tiger { z-index: 5; left: calc(172 * var(--u)); top: calc(598 * var(--u)); width: calc(606 * var(--u)); filter: drop-shadow(0 calc(8 * var(--u)) calc(12 * var(--u)) rgba(40, 0, 26, .45)); }
+.deco--table { z-index: 5; left: calc(1080 * var(--u)); top: calc(836 * var(--u)); width: calc(436 * var(--u)); filter: drop-shadow(0 calc(10 * var(--u)) calc(14 * var(--u)) rgba(40, 0, 26, .5)); }
+.deco--peony { z-index: 6; left: calc(1252 * var(--u)); top: calc(474 * var(--u)); width: calc(262 * var(--u)); filter: drop-shadow(0 calc(6 * var(--u)) calc(8 * var(--u)) rgba(40, 0, 26, .35)); }
+
+/* ---------- the frames ---------- */
+.frames { list-style: none; margin: 0; padding: 0; }
+.frame {
+  position: absolute; z-index: 4;
+  left: calc(var(--x) * var(--u)); top: calc(var(--y) * var(--u));
+  width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u));
+  --bw: calc(30 * var(--u));
+}
+.frame__link { display: block; height: 100%; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+.frame__body {
+  position: relative; display: block; height: 100%;
+  box-shadow: 0 calc(10 * var(--u)) calc(16 * var(--u)) rgba(40, 0, 26, .5), 0 1px 2px rgba(40, 0, 26, .4);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 260ms var(--ease-out), box-shadow 260ms var(--ease-out), translate 260ms var(--ease-out);
+}
+.frame__body.is-tilting { transition: box-shadow 260ms var(--ease-out), translate 260ms var(--ease-out); }
+.frame__photo {
+  position: absolute; inset: calc(var(--bw) - 4px);
+  width: calc(100% - 2 * var(--bw) + 8px); height: calc(100% - 2 * var(--bw) + 8px);
+  object-fit: cover; background: #2b1622;
+}
+.frame__glass {
+  position: absolute; inset: var(--bw);
+  background: radial-gradient(120% 90% at var(--gx, 30%) var(--gy, 20%), rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 55%);
+  box-shadow: inset 0 0 calc(10 * var(--u)) rgba(0, 0, 0, .45);
+  pointer-events: none;
+}
+.frame__wood {
+  position: absolute; inset: 0;
+  border-style: solid; border-width: var(--bw);
+  border-image-width: var(--bw); border-image-repeat: stretch;
+  pointer-events: none;
+}
+.frame__tag {
+  position: absolute; left: 50%; top: calc(100% - 6 * var(--u)); translate: -50% 0;
+  width: calc(100% + 18 * var(--u)); min-width: 132px;
+  padding: max(5px, calc(8 * var(--u))) 10% max(4px, calc(7 * var(--u)));
+  background: url("../img/tag.webp") center / 100% 100% no-repeat;
+  text-align: center; color: #2c1d1b;
+  filter: drop-shadow(0 3px 3px rgba(40, 0, 26, .45));
+  rotate: -.6deg; z-index: 2;
+}
+.frame--xiangxi .frame__tag, .frame--laos .frame__tag { rotate: .7deg; }
+.frame__pin { position: absolute; left: 50%; top: max(-6px, calc(-8 * var(--u))); width: max(13px, calc(18 * var(--u))); height: auto; translate: -50% 0; }
+.frame__title { display: block; font-family: var(--font-body); font-style: italic; font-size: max(12px, calc(15.5 * var(--u))); line-height: 1.18; }
+
+@media (hover: hover) and (pointer: fine) {
+  .frame__link:hover .frame__body { translate: 0 -3px; box-shadow: 0 calc(16 * var(--u)) calc(24 * var(--u)) rgba(40, 0, 26, .55), 0 1px 2px rgba(40, 0, 26, .4); }
+}
+.frame__link:focus-visible { outline: none; }
+.frame__link:focus-visible .frame__body { outline: 3px solid #ffd7ec; outline-offset: 4px; }
+.frame__link:active .frame__body { translate: 0 1px; }
+
+/* ---------- phones and tall windows: the frames in a column of pairs, the furniture at the end ---------- */
+@media (max-width: 760px), (max-aspect-ratio: 1/1) {
+  .pw { --u: calc(min(100vw, 560px) / 390); min-height: 0; padding: 0; }
+  .pw__swags { top: 52px; height: calc(64 * var(--u)); }
+  .pw__stage {
+    position: relative; left: auto; bottom: auto; translate: none;
+    width: min(100%, 560px); height: auto; margin: 0 auto;
+    padding: calc(132 * var(--u)) 0 calc(330 * var(--u));
+  }
+  .frames { position: relative; z-index: 4; display: grid; grid-template-columns: 1fr 1fr; gap: calc(66 * var(--u)) calc(20 * var(--u)); padding: 0 calc(26 * var(--u)); }
+  .frame { position: relative; left: auto; top: auto; width: auto; height: auto; aspect-ratio: calc(var(--w) / var(--h)); --bw: calc(17 * var(--u)); }
+  .frame--kong { grid-column: 1 / -1; width: 72%; justify-self: center; }
+  .frame__tag { min-width: 0; width: calc(100% + 14px); top: calc(100% - 4px); }
+  .frame__title { font-size: 13px; }
+  .deco--rug { rotate: none; width: calc(330 * var(--u)); left: calc(30 * var(--u)); top: calc(150 * var(--u)); }
+  .deco--pearls { left: auto; right: calc(-10 * var(--u)); top: 56px; width: calc(62 * var(--u)); }
+  .deco--bonsai { top: auto; bottom: calc(60 * var(--u)); left: calc(4 * var(--u)); width: calc(168 * var(--u)); }
+  .deco--tiger { top: auto; bottom: calc(6 * var(--u)); left: calc(46 * var(--u)); width: calc(226 * var(--u)); }
+  .deco--table { top: auto; bottom: calc(6 * var(--u)); left: auto; right: calc(-8 * var(--u)); width: calc(168 * var(--u)); }
+  .deco--peony { top: auto; bottom: calc(66 * var(--u)); left: auto; right: calc(34 * var(--u)); width: calc(100 * var(--u)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame__body { transition: none; transform: none; }
+}
